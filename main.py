@@ -35,6 +35,7 @@ def parse(link: str, db):
 
 def main():
     train_db = open("paperswithcode.utf8", 'w', encoding='utf-8')
+    train_csv = open("paperswithcode.csv", 'w', encoding='utf-8')
 
     base = "https://paperswithcode.com/sitemap-papers.xml?p="
     xmls = range(1, 1090)
@@ -54,14 +55,18 @@ def main():
         if pages:
             for page in pages:
                 url = page.text
-                parse(url, train_db)
+                if True:
+                    train_csv.write(url + ";\n")
+                else:
+                    parse(url, train_db)
                 urls.update(url)
                 print(url + " : " + str(i))
 
         print("<< " + str(len(pages)))
-        time.sleep(1.0)
+        time.sleep(2.0)
     #
     train_db.close()
+    train_csv.close()
     print("<< urls=" + str(len(urls)))
     pass
 
