@@ -38,7 +38,7 @@ def main():
     train_csv = open("paperswithcode.csv", 'w', encoding='utf-8')
 
     base = "https://paperswithcode.com/sitemap-papers.xml?p="
-    xmls = range(1, 1090)
+    xmls = range(1, 1190)
 
     urls = set()
     
@@ -59,7 +59,7 @@ def main():
                     train_csv.write(url + ";\n")
                 else:
                     parse(url, train_db)
-                urls.update(url)
+                urls.add(url)
                 print(url + " : " + str(i))
 
         print("<< " + str(len(pages)))
