@@ -5,12 +5,11 @@ import time
 
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
-
 from urllib.parse import urlparse
 from urllib.request import Request
 
 
-def parse(link: str, db):
+def parseUrl(link: str, db):
     req = Request(link, headers={'User-Agent': 'XYZ/3.0'})
     response = urllib.request.urlopen(req)
     html = response.read()
@@ -33,8 +32,7 @@ def parse(link: str, db):
     db.flush()
     pass
 
-def main():
-    train_db = open("paperswithcode.utf8", 'w', encoding='utf-8')
+def parse():
     train_csv = open("paperswithcode.csv", 'w', encoding='utf-8')
 
     base = "https://paperswithcode.com/sitemap-papers.xml?p="
@@ -53,23 +51,46 @@ def main():
 
         pages = raw.findAll('loc')
         if pages:
+        #
             for page in pages:
+            #
                 url = page.text
-                if True:
-                    train_csv.write(url + ";\n")
-                else:
-                    parse(url, train_db)
+                train_csv.write(url + ";\n")
                 urls.add(url)
                 print(url + " : " + str(i))
-
-        print("<< " + str(len(pages)))
+            #
+        #
         time.sleep(2.0)
     #
-    train_db.close()
+
     train_csv.close()
     print("<< urls=" + str(len(urls)))
     pass
 
+def readLinks(strPath):
+    train_db = open("paperswithcode.utf8", 'w', encoding='utf-8')
+    fh = open(strPath, 'r', encoding='utf-8')
+    count = 1
+
+    while True:
+    #{
+        line = fh.readline()
+        if not line:
+            break
+        line = line.strip(";\n")
+        parseUrl(line, train_db)
+        print(count)
+        count += 1
+        time.sleep(1.0)
+    #}
+    train_db.close()
+    fh.close()
+
+def main():
+    if False:
+        parse()
+    else:
+        readLinks("paperswithcode-1188709.csv")
 
 if __name__ == "__main__":
     main()
