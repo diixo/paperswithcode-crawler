@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 from urllib.parse import urlparse
 from urllib.request import Request
 
-
+##################################################################
 def parseUrl(link: str, db):
     req = Request(link, headers={'User-Agent': 'XYZ/3.0'})
     response = urllib.request.urlopen(req)
@@ -52,6 +52,7 @@ def parseUrl(link: str, db):
     db.flush()
     pass
 
+##################################################################
 def parse():
     train_csv = open("paperswithcode.csv", 'w', encoding='utf-8')
 
@@ -87,6 +88,7 @@ def parse():
     print("<< urls=" + str(len(urls)))
     pass
 
+##################################################################
 def readLinks(strPath):
     train_db = open("paperswithcode.utf8", 'w', encoding='utf-8')
     fh = open(strPath, 'r', encoding='utf-8')
@@ -106,11 +108,13 @@ def readLinks(strPath):
     train_db.close()
     fh.close()
 
+##################################################################
 def main():
     if False:
         parse()
     else:
         readLinks("paperswithcode-1188709.csv")
 
+##################################################################
 if __name__ == "__main__":
     main()
