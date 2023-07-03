@@ -36,33 +36,35 @@ def parse(link: str, db):
 def main():
     train_db = open("paperswithcode.utf8", 'w', encoding='utf-8')
 
-    url = "https://paperswithcode.com/sitemap-papers.xml?p="
+    base = "https://paperswithcode.com/sitemap-papers.xml?p="
     xmls = range(1, 1090)
+
+    urls = set()
     
     for i in xmls:
     #
-        link = url + str(i)
+        link = base + str(i)
         req = Request(link, headers={'User-Agent': 'XYZ/3.0'})
 
         response = urllib.request.urlopen(req)
         html = response.read()
         raw = BeautifulSoup(html, features="html.parser")
-        #print(link)
 
         pages = raw.findAll('loc')
         if pages:
             for page in pages:
-                parse(page.text, train_db)
-                print(page.text + " : " + str(i))
+                url = page.text
+                parse(url, train_db)
+                urls.update(url)
+                print(url + " : " + str(i))
 
         print("<< " + str(len(pages)))
-        time.sleep(2.0)
+        time.sleep(1.0)
     #
     train_db.close()
+    print("<< urls=" + str(len(urls)))
     pass
-    
 
 
 if __name__ == "__main__":
     main()
-
