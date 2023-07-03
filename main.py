@@ -17,7 +17,7 @@ def parseUrl(link: str, db):
 
     h1 = raw.find('h1')
     if h1:
-        #print(h1.text)
+    #
         paper = raw.find('div', attrs={'class' : 'paper-abstract'})
         content = paper.find('div', attrs={'class' : 'col-md-12'})
         
@@ -25,8 +25,28 @@ def parseUrl(link: str, db):
 
         items = content.find("p")
         for item in items:
-            #print(item)
             db.write("<p>" + item.strip() + "</p>\n")
+
+        # tags
+        tags = set()
+        tags_section = raw.find('div', attrs={'class' : 'paper-tasks'})
+        if tags_section:
+        #
+            tag_class = tags_section.find('div', attrs={'class' : 'col-md-12'})
+            if tag_class:
+                spans = tag_class.findAll('span', attrs={'class' : 'badge badge-primary'})
+                if spans:
+                    for span in spans:
+                        tag = span.find('span')
+                        tags.add(tag.text)
+        #
+        if len(tags) > 0:
+            db.write("<tags>")
+            for i in tags:
+                db.write(i+";")
+            db.write("</tags>\n")
+        #
+    #
     else:
         print("ERROR")
     db.flush()
