@@ -18,6 +18,8 @@ def parseUrl(link: str, db):
     h1 = raw.find('h1')
     if h1:
     #
+        db.write("<item>\n")
+
         paper = raw.find('div', attrs={'class' : 'paper-abstract'})
         content = paper.find('div', attrs={'class' : 'col-md-12'})
         
@@ -46,6 +48,8 @@ def parseUrl(link: str, db):
                 db.write(i+";")
             db.write("</tags>\n")
         #
+        db.write("<url>"+link+"</url>\n")
+        db.write("</item>\n")
     #
     else:
         print("ERROR")
@@ -103,7 +107,7 @@ def readLinks(strPath):
         parseUrl(line, train_db)
         print(count)
         count += 1
-        time.sleep(1.0)
+        #time.sleep(1.0)
     #}
     train_db.close()
     fh.close()
