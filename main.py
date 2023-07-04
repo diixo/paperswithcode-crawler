@@ -19,17 +19,16 @@ def parseUrl(link: str, db):
             break
         except urllib.error.URLError as e:
             if hasattr(e, 'code'):
-                print(e.code)
+                print("URLErr_code:", e.code)
             if hasattr(e, 'reason'):
-                print(e.reason)
-            time.sleep(2.0)
+                print("URLErr_reason:", e.reason)
+            time.sleep(3.0)
         except urllib.error.HTTPError as e:
             if hasattr(e, 'code'):
-                print(e.code)
+                print("HTTPErr_code:", e.code)
             if hasattr(e, 'reason'):
-                print(e.reason)
-            print('HTTPError!!!')
-            time.sleep(2.0)
+                print("HTTPErr_reason:", e.reason)
+            time.sleep(3.0)
     ##############################################
     html = response.read()
     raw = BeautifulSoup(html, features="html.parser")
