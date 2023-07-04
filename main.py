@@ -11,7 +11,26 @@ from urllib.request import Request
 ##################################################################
 def parseUrl(link: str, db):
     req = Request(link, headers={'User-Agent': 'XYZ/3.0'})
-    response = urllib.request.urlopen(req)
+    response = None
+
+    while True:
+        try:
+            response = urllib.request.urlopen(req)
+            break
+        except urllib.error.URLError as e:
+            if hasattr(e, 'code'):
+                print(e.code)
+            if hasattr(e, 'reason'):
+                print(e.reason)
+            time.sleep(2.0)
+        except urllib.error.HTTPError as e:
+            if hasattr(e, 'code'):
+                print(e.code)
+            if hasattr(e, 'reason'):
+                print(e.reason)
+            print('HTTPError!!!')
+            time.sleep(2.0)
+    ##############################################
     html = response.read()
     raw = BeautifulSoup(html, features="html.parser")
 
