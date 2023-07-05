@@ -23,12 +23,18 @@ def parseUrl(link: str, db):
             if hasattr(e, 'reason'):
                 print("URLErr_reason:", e.reason)
             time.sleep(3.0)
+            print("<<<")
         except urllib.error.HTTPError as e:
             if hasattr(e, 'code'):
                 print("HTTPErr_code:", e.code)
             if hasattr(e, 'reason'):
                 print("HTTPErr_reason:", e.reason)
             time.sleep(3.0)
+            print("<< <<")
+        except:
+            print("Unexpected error:", sys.exc_info()[0])
+            time.sleep(5.0)
+        print("<<")
     ##############################################
     html = response.read()
     raw = BeautifulSoup(html, features="html.parser")
