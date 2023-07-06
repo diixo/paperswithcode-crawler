@@ -51,8 +51,9 @@ def parseUrl(link: str, db):
         db.write("<h1>" + h1.text.strip() + "</h1>\n")
 
         items = content.find("p")
-        for item in items:
-            db.write("<p>" + item.strip() + "</p>\n")
+        if items:
+            for item in items:
+                db.write("<p>" + item.strip() + "</p>\n")
 
         # tags
         tags = set()
