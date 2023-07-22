@@ -53,7 +53,7 @@ def parseUrl(link: str, db):
         items = content.find("p")
         if items:
             for item in items:
-                db.write("<p>" + item.strip() + "</p>\n")
+                db.write("<p>" + item.text.strip() + "</p>\n")
 
         # tags
         tags = set()
